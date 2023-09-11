@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@900&display=swap" rel="stylesheet">    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Excel File</title>
+    
+</head>
+<body>
+    <header>
+        <h1>Let's make vocabulary learning easy</h1>
+    </header>
+    <main>
+        <div id='instructions'>
+            <p>Use this link to see an example of .xlsx file: <a href="https://docs.google.com/spreadsheets/d/1YzjyBS-dLNGQ-q6g_RBa7xLOd_xBAARpkLf-b0h3djw/edit?usp=sharing" target="_blank">Example.xlsx</a></p>
+            <p>Prepare the same vocabulary list with Excel or Google Sheets and upload to start practicing. Please, be careful with 
+                spelling and check if there are any spaces before or after a word in your vocabulary. Enjoy!
+            </p>
+        </div>
+        <div id = "main_div">
+                <form id = "file_upload_form" action="/" method="post" enctype="multipart/form-data">
+                    <label>
+                        <input type="file" name="file" accept=".xlsx">
+                        <input type="submit" value="Upload">
+                    </label>
+                </form>
+            
+            {% if filename %}
+                <div id="uploaded_file_div">
+                    <h2 id = "uploaded_name">Uploaded File: {{ filename }}</h2>
+                    <button id = "random_row_btn"><a id="random_row_link" href="/random_row">Get Random Word</a></button>
+            {% endif %}
+            </div>
+
+            {% if random_row %}
+                <div id="check_div">
+                    <h3 id = "check_name">Random Word:</h3>
+
+                    {% if random_row %}
+                        <p id="word"> {{ random_row }}</p>
+                    {% endif %}
+
+                    <form id = "check_form" action="/check" method="post">
+                        <input type="text" name="user_input" placeholder="Enter the translation" autocomplete="off" value="{{ default_value }}">
+                        <input type="submit" value="Check">
+                    </form>
+
+                    <form id = "record_form" action = '/record' method = 'POST' enctype="multipart/form-data">
+                        <input type="file" name="recorded_file">
+                        <button type="submit">Upload</button>
+                        <button id = "show_btn"><a id="show_link" href="/show_translation">Show translation</a></button>
+                    </form>
+                    {% if paragraph_text %}
+                    <p id = 'correctness_check'>{{ paragraph_text }}</p>
+                    {% endif %}
+                </div>
+                
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
